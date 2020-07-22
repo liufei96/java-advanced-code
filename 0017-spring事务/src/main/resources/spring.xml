@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:component-scan base-package="com.liufei"></context:component-scan>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<!-- 开启事物注解 -->
+
+	<!-- 1. 数据源对象: C3P0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+
+	<!-- 2. JdbcTemplate工具类实例 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 3.配置事务 -->
+	<bean id="dataSourceTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- service 实例 -->
+	<bean id="userDao" class="com.liufei.spring.dao.UserDao"/>
+	<bean id="userService" class="com.liufei.spring.service.impl.UserServiceImpl"/>
+	<!-- 切面类
+	<bean id="aop" class="com.liufei.spring.aop.AopLog2"></bean>
+	&lt;!&ndash; Aop配置 &ndash;&gt;
+	<aop:config>
+		&lt;!&ndash; 定义一个切入点表达式： 拦截哪些方法 &ndash;&gt;
+		<aop:pointcut expression="execution(* com.liufei.spring.service.UserService.*(..))"
+					  id="pt" />
+		&lt;!&ndash; 切面 &ndash;&gt;
+		<aop:aspect ref="aop">
+			&lt;!&ndash; 环绕通知 &ndash;&gt;
+			<aop:around method="around" pointcut-ref="pt" />
+			&lt;!&ndash; 前置通知： 在目标方法调用前执行 &ndash;&gt;
+			<aop:before method="before" pointcut-ref="pt" />
+			&lt;!&ndash; 后置通知： &ndash;&gt;
+			<aop:after method="after" pointcut-ref="pt" />
+			&lt;!&ndash; 返回后通知 &ndash;&gt;
+			<aop:after-returning method="afterReturning"
+								 pointcut-ref="pt" />
+			&lt;!&ndash; 异常通知 &ndash;&gt;
+			<aop:after-throwing method="afterThrowing"
+								pointcut-ref="pt" />
+		</aop:aspect>
+	</aop:config>-->
+</beans>
