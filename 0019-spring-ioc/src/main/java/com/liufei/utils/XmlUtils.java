@@ -1,6 +1,5 @@
 package com.liufei.utils;
 
-import jdk.internal.org.xml.sax.SAXException;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class XmlUtils {
 
-    public static void main(String[] args) throws SAXException, DocumentException {
+    public static void main(String[] args) throws DocumentException {
         XmlUtils xmlUtils = new XmlUtils();
         xmlUtils.test001();
     }

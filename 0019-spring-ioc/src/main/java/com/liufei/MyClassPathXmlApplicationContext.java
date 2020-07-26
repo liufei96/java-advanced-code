@@ -25,9 +25,12 @@ public class MyClassPathXmlApplicationContext {
             throw new Exception("该配置文件没有子元素");
         }
         // 2.使用beanId查找对应的class对象
-
-
+        String xmlByIDClass = XmlUtils.findXmlByIDClass(elements, beanId);
+        if (xmlByIDClass == null) {
+            throw new Exception("没有找到改beanId对应的class");
+        }
+        // 3. 获取class的信息地址，使用反射进行初始化
+        Class<?> aClass = Class.forName(xmlByIDClass);
+        return aClass.newInstance();
     }
-
-
 }
